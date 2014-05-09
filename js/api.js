@@ -1,7 +1,6 @@
 define(function(require) {
   'use strict';
 
-
   indexedDB.open('todos', 1).onupgradeneeded = function(event) {
     var db = event.target.result;
     var objectStore = db.createObjectStore('list', {

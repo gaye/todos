@@ -1,4 +1,6 @@
 define(function(require) {
+  'use strict';
+
   var model = require('model');
 
   return function() {
