@@ -21,7 +21,12 @@ define(function(require) {
       var db = event.target.result;
       var transaction = db.transaction('list', 'readwrite');
       var list = transaction.objectStore('list');
-      list.add(todo);
+      list.add(todo).onsuccess = function(event) {
+        // For now we have to simulate change events since
+        // indexedDB does not support them.
+        var wip = api.onchange.wip;
+        wip && wip({ added: [todo], removed: [] });
+      };
     };
   };
 
@@ -30,7 +35,14 @@ define(function(require) {
       var db = event.target.result;
       var transaction = db.transaction('list', 'readwrite');
       var list = transaction.objectStore('list');
-      list.put(todo);
+      list.put(todo).onsuccess = function(event) {
+        // For now we have to simulate change events since
+        // indexedDB does not support them.
+        var wip = api.onchange.wip,
+            done = api.onchange.done;
+        wip && wip({ added: [], removed: [todo] });
+        done && done({ added: [todo], removed: [] });
+      };
     };
   };
 
@@ -70,6 +82,11 @@ define(function(require) {
         return !todo.done;
       });
     });
+  };
+
+  api.onchange = {
+    done: null,
+    wip: null
   };
 
   return api;
