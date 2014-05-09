@@ -17,31 +17,10 @@ define(function(require) {
       };
 
       api.add(todo);
-
-      // For now we have to "write through the cache"
-      // since indexedDB does not support change events.
-      if ('wip' in this.queryToCached) {
-        this.queryToCached.wip.push(todo);
-        this._publish('wip');
-      }
     },
 
     update: function(todo) {
       api.update(todo);
-
-      // For now we have to "write through the cache"
-      // since indexedDB does not support change events.
-      var wip = this.queryToCached.wip,
-          done = this.queryToCached.done;
-      wip.some(function(value, index) {
-        if (value.id === todo.id) {
-          wip.splice(index, 1);
-          done.push(value);
-          this._publish('wip');
-          this._publish('done');
-          return true;
-        }
-      }.bind(this));
     },
 
     done: function() {
@@ -69,8 +48,25 @@ define(function(require) {
         }.bind(this));
       }
 
-      // TODO(gareth): If the api supports it, we should listen for
-      //     "change" events here also and publish the changes.
+      api.onchange[query] = function(change) {
+        console.log('Change in ' + query + '!');
+        var cached = this.queryToCached[query];
+
+        change.added.forEach(function(added) {
+          cached.push(added);
+        });
+
+        change.removed.forEach(function(removed) {
+          cached.some(function(value, index) {
+            if (value.id === removed.id) {
+              cached.splice(index, 1);
+              return true;
+            }
+          });
+        });
+
+        this._publish(query);
+      }.bind(this);
 
       return result;
     },
