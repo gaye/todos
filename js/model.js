@@ -69,6 +69,9 @@ define(function(require) {
         }.bind(this));
       }
 
+      // TODO(gareth): If the api supports it, we should listen for
+      //     "change" events here also and publish the changes.
+
       return result;
     },
 
