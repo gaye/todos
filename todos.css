@@ -1,0 +1,19 @@
+section.wip {
+  float: left;
+}
+
+section.done {
+  float: left;
+}
+
+section.wip li:hover {
+  text-decoration: underline;
+}
+
+section.done li {
+  text-decoration: line-through;
+}
+
+li {
+  cursor: pointer;
+}

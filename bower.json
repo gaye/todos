@@ -1,0 +1,22 @@
+{
+  "name": "todos",
+  "version": "0.0.1",
+  "description": "A todos app built with reactive views reading from a persistent, async api",
+  "license": "MPL-2.0",
+
+  "authors": [
+    "gaye <gaye@mozilla.com>"
+  ],
+
+  "keywords": [
+    "todos",
+    "indexedDb",
+    "reactive",
+    "mvc"
+  ],
+
+  "dependencies": {
+    "knockoutjs": "3.1.0",
+    "requirejs": "2.1.11"
+  }
+}

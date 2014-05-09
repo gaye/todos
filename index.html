@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="/todos.css">
+  <script data-main="js/main" src="/bower_components/requirejs/require.js"></script>
+</head>
+<body>
+  <section class="wip">
+    <h1>Wip</h1>
+    <ol class="list" data-bind="foreach: todos">
+      <li class="todo" data-bind="text: description,
+                                  click: $parent.finishTodo">
+      </li>
+    </ol>
+
+    <section class="add">
+      <input data-bind="value: name, valueUpdate: 'input'">
+      <button data-bind="click: addTodo">Add</button>
+    </section>
+  </section>
+
+  <section class="done">
+    <h1>Done</h1>
+    <ol class="list" data-bind="foreach: todos">
+      <li class="todo" data-bind="text: description">
+      </li>
+    </ol>
+  </section>
+</body>
+</html>
